@@ -1,0 +1,39 @@
+{
+  "name": "elm-jsparser",
+  "version": "1.0.0",
+  "description": "Parse JavaScript and JSON objects to Elm types",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "elm-ordeal tests/JsParserTests.elm --node"
+  },
+  "keywords": [
+    "elm",
+    "javascript",
+    "json",
+    "parser"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pauldijou/elm-jsparser.git"
+  },
+  "author": {
+    "email": "paul.dijou@gmail.com",
+    "name": "Paul Dijou",
+    "url": "http://pauldijou.fr"
+  },
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/pauldijou/elm-jsparser/issues"
+  },
+  "homepage": "https://github.com/pauldijou/elm-jsparser",
+  "dependencies": {},
+  "devDependencies": {
+    "elm-ordeal": "0.0.1"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
