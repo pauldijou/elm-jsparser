@@ -29,6 +29,9 @@ jsParserJs =
     , test "Number" (
       parseJs Native.JsParserTests.js_number |> shouldEqual (JsNumber 42)
     )
+    , test "NaN" (
+      parseJs Native.JsParserTests.js_nan |> shouldEqual JsNaN
+    )
     , test "String" (
       parseJs Native.JsParserTests.js_string |> shouldEqual (JsString "a")
     )
@@ -57,6 +60,28 @@ jsParserJs =
       case parseJs Native.JsParserTests.js_func of
         JsFunction _ -> success
         value -> failure ("Expected a JsFunction, got: " ++ (toString value))
+    )
+    , test "Error" (
+      case parseJs Native.JsParserTests.js_error of
+        JsError err ->
+          if err.message == "you failed"
+          then success
+          else failure ("Wrong parsed error: " ++ toString err)
+        value -> failure ("Expected a JsError, got: " ++ (toString value))
+    )
+    , test "Map" (
+      let
+        jsMap = JsMap <| Dict.fromList [ ("0", JsString "zero"), ("true", JsBoolean True), ("false", JsNumber -1) ]
+      in
+        parseJs Native.JsParserTests.js_map |> shouldEqual jsMap
+    )
+    , test "Set" (
+      parseJs Native.JsParserTests.js_set |> shouldEqual (JsSet [ JsNumber 0, JsString "s", JsBoolean True ])
+    )
+    , test "Symbol" (
+      case parseJs Native.JsParserTests.js_symbol of
+        JsSymbol _ -> success
+        value -> failure ("Expected a JsSymbol, got: " ++ (toString value))
     )
     ]
 

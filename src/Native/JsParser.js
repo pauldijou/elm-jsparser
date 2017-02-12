@@ -1,4 +1,6 @@
 var _pauldijou$elm_jsparser$Native_JsParser = function () {
+  var Nothing = _elm_lang$core$Maybe$Nothing
+  var Just = _elm_lang$core$Maybe$Just
   var Ok = _elm_lang$core$Result$Ok
   var Err = _elm_lang$core$Result$Err
   var arrayToList = _elm_lang$core$Native_List.fromArray
@@ -26,8 +28,28 @@ var _pauldijou$elm_jsparser$Native_JsParser = function () {
   var weakMapType = '[object WeakMap]'
   var weakSetType = '[object WeakSet]'
 
+  var int8ArrayType = '[object Int8Array]'
+  var uint8ArrayType = '[object Uint8Array]'
+  var uint8ClampedArrayType = '[object Uint8ClampedArray]'
+  var int16ArrayType = '[object Int16Array]'
+  var uint16ArrayType = '[object Uint16Array]'
+  var int32ArrayType = '[object Int32Array]'
+  var uint32ArrayType = '[object Uint32Array]'
+  var float32ArrayType = '[object Float32Array]'
+  var float64ArrayType = '[object Float64Array]'
+
   function getType(value) {
     return toString.call(value)
+  }
+
+  function maybe(value) {
+    return value === undefined || value === null ? Nothing : Just(value)
+  }
+
+  function parseNumber(value) {
+    return isNaN(value) ?
+      _pauldijou$elm_jsparser$JsParser$JsNaN :
+      _pauldijou$elm_jsparser$JsParser$JsNumber(value)
   }
 
   function parseArray(value, fn) {
@@ -40,19 +62,50 @@ var _pauldijou$elm_jsparser$Native_JsParser = function () {
     }, dictEmpty)
   }
 
+  function parseMap(value) {
+    var res = dictEmpty
+    value.forEach(function (item, key) {
+      res = A3(dictInsert, '' + key, parseJs(item), res)
+    })
+    return res
+  }
+
+  function parseError(value) {
+    return {
+      message: value.message,
+      name: maybe(value.name),
+      lineNumber: maybe(value.lineNumber),
+      columnNumber: maybe(value.columnNumber),
+      fileName: maybe(value.fileName),
+      stack: maybe(value.stack)
+    }
+  }
+
+  function parseSet(value) {
+    var res = []
+    value.forEach(function (item) {
+      res.push(parseJs(item))
+    })
+    return arrayToList(res)
+  }
+
   function parseJs(value) {
     switch (getType(value)) {
-      case nullType: return _pauldijou$elm_jsparser$JsParser$JsNull
+      case nullType:      return _pauldijou$elm_jsparser$JsParser$JsNull
       case undefinedType: return _pauldijou$elm_jsparser$JsParser$JsUndefined
-      case stringType: return _pauldijou$elm_jsparser$JsParser$JsString(value)
-      case numberType: return _pauldijou$elm_jsparser$JsParser$JsNumber(value)
-      case booleanType: return _pauldijou$elm_jsparser$JsParser$JsBoolean(value)
-      case arrayType: return _pauldijou$elm_jsparser$JsParser$JsArray(parseArray(value, parseJs))
-      case objectType: return _pauldijou$elm_jsparser$JsParser$JsObject(parseObject(value, parseJs))
-      case dateType: return _pauldijou$elm_jsparser$JsParser$JsDate(value)
-      case functionType: return _pauldijou$elm_jsparser$JsParser$JsFunction(value)
-      case regexpType: return _pauldijou$elm_jsparser$JsParser$JsRegExp(value)
-      default: return _pauldijou$elm_jsparser$JsParser$JsOther(value)
+      case stringType:    return _pauldijou$elm_jsparser$JsParser$JsString(value)
+      case numberType:    return parseNumber(value)
+      case booleanType:   return _pauldijou$elm_jsparser$JsParser$JsBoolean(value)
+      case arrayType:     return _pauldijou$elm_jsparser$JsParser$JsArray(parseArray(value, parseJs))
+      case objectType:    return _pauldijou$elm_jsparser$JsParser$JsObject(parseObject(value, parseJs))
+      case dateType:      return _pauldijou$elm_jsparser$JsParser$JsDate(value)
+      case functionType:  return _pauldijou$elm_jsparser$JsParser$JsFunction(value)
+      case regexpType:    return _pauldijou$elm_jsparser$JsParser$JsRegExp(value)
+      case errorType:     return _pauldijou$elm_jsparser$JsParser$JsError(parseError(value))
+      case mapType:       return _pauldijou$elm_jsparser$JsParser$JsMap(parseMap(value))
+      case setType:       return _pauldijou$elm_jsparser$JsParser$JsSet(parseSet(value))
+      case symbolType:    return _pauldijou$elm_jsparser$JsParser$JsSymbol(value)
+      default:            return _pauldijou$elm_jsparser$JsParser$JsOther(value)
     }
   }
 

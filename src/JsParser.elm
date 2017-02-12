@@ -16,9 +16,20 @@ import Dict exposing (Dict)
 import Native.JsParser
 
 {-|-}
+type alias Error =
+  { message: String
+  , name: Maybe String
+  , lineNumber: Maybe Int
+  , columnNumber: Maybe Int
+  , fileName: Maybe String
+  , stack: Maybe String
+  }
+
+{-|-}
 type JsValue
   = JsNull
   | JsUndefined
+  | JsNaN
   | JsString String
   | JsNumber Float
   | JsBoolean Bool
@@ -27,6 +38,10 @@ type JsValue
   | JsObject (Dict String JsValue)
   | JsDate Date
   | JsFunction Json.Encode.Value
+  | JsError Error
+  | JsMap (Dict String JsValue)
+  | JsSet (List JsValue)
+  | JsSymbol Json.Encode.Value
   | JsOther Json.Encode.Value
 
 {-|-}
