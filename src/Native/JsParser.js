@@ -1,8 +1,9 @@
-var _pauldijou$elm_javascript_adt$Native_JsParser = function () {
+var _pauldijou$elm_jsparser$Native_JsParser = function () {
   var Ok = _elm_lang$core$Result$Ok
   var Err = _elm_lang$core$Result$Err
   var arrayToList = _elm_lang$core$Native_List.fromArray
-  var Tuple2 = _elm_lang$core$Native_Utils.Tuple2
+  var dictEmpty = _elm_lang$core$Dict$empty
+  var dictInsert = _elm_lang$core$Dict$insert
 
   var toString = Object.prototype.toString
   var nullType = '[object Null]'
@@ -29,49 +30,41 @@ var _pauldijou$elm_javascript_adt$Native_JsParser = function () {
     return toString.call(value)
   }
 
-  function ctor(name, value) {
-    if (value === undefined) {
-      return { ctor: name }
-    }
-    return { ctor: name, _0: value }
-  }
-
   function parseArray(value, fn) {
     return arrayToList(value.map(fn))
   }
 
   function parseObject(value, fn) {
-    return arrayToList(Object.keys(value).reduce(function (fields, key) {
-      fields.push(Tuple2(key, fn(value[key])))
-      return fields
-    }, []))
+    return Object.keys(value).reduce(function (fields, key) {
+      return A3(dictInsert, key, fn(value[key]), fields)
+    }, dictEmpty)
   }
 
   function parseJs(value) {
     switch (getType(value)) {
-      case nullType: return ctor('JsNull')
-      case undefinedType: return ctor('JsUndefined')
-      case stringType: return ctor('JsString', value)
-      case numberType: return ctor('JsNumber', value)
-      case booleanType: return ctor('JsBoolean', value)
-      case arrayType: return ctor('JsArray', parseArray(value, parseJs))
-      case objectType: return ctor('JsObject', parseObject(value, parseJs))
-      case dateType: return ctor('JsDate', value)
-      case functionType: return ctor('JsFunction', value)
-      case regexpType: return ctor('JsRegExp', value)
-      default: return ctor('JsOther', value)
+      case nullType: return _pauldijou$elm_jsparser$JsParser$JsNull
+      case undefinedType: return _pauldijou$elm_jsparser$JsParser$JsUndefined
+      case stringType: return _pauldijou$elm_jsparser$JsParser$JsString(value)
+      case numberType: return _pauldijou$elm_jsparser$JsParser$JsNumber(value)
+      case booleanType: return _pauldijou$elm_jsparser$JsParser$JsBoolean(value)
+      case arrayType: return _pauldijou$elm_jsparser$JsParser$JsArray(parseArray(value, parseJs))
+      case objectType: return _pauldijou$elm_jsparser$JsParser$JsObject(parseObject(value, parseJs))
+      case dateType: return _pauldijou$elm_jsparser$JsParser$JsDate(value)
+      case functionType: return _pauldijou$elm_jsparser$JsParser$JsFunction(value)
+      case regexpType: return _pauldijou$elm_jsparser$JsParser$JsRegExp(value)
+      default: return _pauldijou$elm_jsparser$JsParser$JsOther(value)
     }
   }
 
   function parseJsonImpl(value) {
     switch (getType(value)) {
-      case nullType: return ctor('JsonNull')
-      case stringType: return ctor('JsonString', value)
-      case numberType: return ctor('JsonNumber', value)
-      case booleanType: return ctor('JsonBoolean', value)
-      case arrayType: return ctor('JsonArray', parseArray(value, parseJsonImpl))
-      case objectType: return ctor('JsonObject', parseObject(value, parseJsonImpl))
-      default: return ctor('JsonObject', parseObject(value, parseJsonImpl))
+      case nullType: return _pauldijou$elm_jsparser$JsParser$JsonNull
+      case stringType: return _pauldijou$elm_jsparser$JsParser$JsonString(value)
+      case numberType: return _pauldijou$elm_jsparser$JsParser$JsonNumber(value)
+      case booleanType: return _pauldijou$elm_jsparser$JsParser$JsonBoolean(value)
+      case arrayType: return _pauldijou$elm_jsparser$JsParser$JsonArray(parseArray(value, parseJsonImpl))
+      case objectType: return _pauldijou$elm_jsparser$JsParser$JsonObject(parseObject(value, parseJsonImpl))
+      default: return _pauldijou$elm_jsparser$JsParser$JsonObject(parseObject(value, parseJsonImpl))
     }
   }
 

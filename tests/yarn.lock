@@ -201,7 +201,7 @@ caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
 
-chalk@^1.1.1:
+chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
   dependencies:
@@ -389,10 +389,11 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-elm-ordeal@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/elm-ordeal/-/elm-ordeal-0.0.1.tgz#ba6e446b21ef30048e8691af33c16df8d2138db8"
+elm-ordeal@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/elm-ordeal/-/elm-ordeal-0.0.2.tgz#c8f70dbd607a2b8dde0aaeb39bf97ea18180099b"
   dependencies:
+    chalk "^1.1.3"
     cross-spawn "^5.0.1"
     karma "^1.3.0"
     karma-chrome-launcher "^2.0.0"
@@ -400,6 +401,7 @@ elm-ordeal@0.0.1:
     karma-ie-launcher "^1.0.0"
     karma-opera-launcher "^1.0.0"
     karma-safari-launcher "^1.0.0"
+    log-symbols "^1.0.2"
     minimist "^1.2.0"
     node-elm-compiler "^4.2.0"
     temp "^0.8.3"
@@ -942,6 +944,12 @@ lodash@^3.8.0:
 lodash@^4.5.0, lodash@^4.6.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
+log-symbols@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-1.0.2.tgz#376ff7b58ea3086a0f09facc74617eca501e1a18"
+  dependencies:
+    chalk "^1.0.0"
 
 log4js@^0.6.31:
   version "0.6.38"

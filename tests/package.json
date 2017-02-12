@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "elm-ordeal tests/JsParserTests.elm --node"
+    "test": "elm-ordeal JsParserTests.elm --node"
   },
   "keywords": [
     "elm",
@@ -30,7 +30,7 @@
   "homepage": "https://github.com/pauldijou/elm-jsparser",
   "dependencies": {},
   "devDependencies": {
-    "elm-ordeal": "0.0.1"
+    "elm-ordeal": "0.0.2"
   },
   "engineStrict": true,
   "engines": {

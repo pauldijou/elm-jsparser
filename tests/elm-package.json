@@ -4,12 +4,11 @@
   "repository": "https://github.com/pauldijou/elm-jsparser.git",
   "license": "Apache2",
   "source-directories": [
-    "src"
+    ".",
+    "../src"
   ],
   "native-modules": true,
-  "exposed-modules": [
-    "JsParser"
-  ],
+  "exposed-modules": [],
   "dependencies": {
     "elm-lang/core": "5.0.0 <= v < 6.0.0",
     "pauldijou/elm-ordeal": "1.0.0 <= v < 2.0.0"
